@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+        <title>Color Configuration V1</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <input type="hidden" id="model" value="">
+                    <center>
+                        <h1 class="title">Color Detection Configuration</h1>
+                    </center>
+                    <div class="Content">
+                        <div class="Camera">
+                            <img src="{{ url_for('video') }}" class="camera-show">
+                            <!-- <img src="img/TEST.png" style="width: 100%;"> -->
+                        </div>
+                        <div class="color-values-box">
+                            <div class="color-values">
+                                <h2 style="padding:10px 0 10px 0;">Current Average Colour Values</h2>
+                                <h3 id="r_avg_value">R_avg Value: Loading...</h3>
+                                <h3 id="g_avg_value">G_avg Value: Loading...</h3>
+                                <h3 id="b_avg_value">B_avg Value: Loading...</h3>
+                                <div>
+                                    <h2 style="padding-top:5px;">Status</h2>
+                                    <h3 id="current_model">Current Model: Loading...</h3>
+                                    <h3 id="current_trig">Current Trig: Loading...</h3>
+                                </div>
+                            </div>
+                        
+                        <div class="Camera-Config-bar">
+                            <div class="btn">
+                                <h2 style="padding:10px;">Color Configuration</h2>
+                                <h3 class="select-color-title" style="padding-bottom: 10px; color:red;">Select the color to config</h3>
+                                <div>
+                                <button id="yellow-btn" class="yellow-btn">Yellow</button>
+                                <button id="white-btn" class="white-btn">White</button>
+                                <button id="blue-btn" class="blue-btn">Blue</button>
+                                <button id="gray-btn" class="gray-btn">Gray</button>
+                                </div>
+                            </div>
+                            <div class="slidebar">
+                                <!-- First Range Slider -->
+                                <div class="range_container">
+                                    <h3 class="config-title">Red</h3>
+                                    <div class="sliders_control">
+                                        <input id="fromSlider1" type="range" value="60" min="0" max="255"/>
+                                        <input id="toSlider1" type="range" value="185" min="0" max="255"/>
+                                    </div>
+                                    <div class="form_control">
+                                        <div class="form_control_container">
+                                            <div class="form_control_container__time">Min</div>
+                                            <input class="form_control_container__time__input" type="number" id="fromInput1" value="60" min="0" max="255"/>
+                                        </div>
+                                        <div class="form_control_container">
+                                            <div class="form_control_container__time">Max</div>
+                                            <input class="form_control_container__time__input" type="number" id="toInput1" value="185" min="0" max="255"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Second Range Slider -->
+                                <div class="range_container">
+                                    <h3 class="config-title">Green</h3>
+                                    <div class="sliders_control">
+                                        <input id="fromSlider2" type="range" value="60" min="0" max="255"/>
+                                        <input id="toSlider2" type="range" value="185" min="0" max="255"/>
+                                    </div>
+                                    <div class="form_control">
+                                        <div class="form_control_container">
+                                            <div class="form_control_container__time">Min</div>
+                                            <input class="form_control_container__time__input" type="number" id="fromInput2" value="60" min="0" max="255"/>
+                                        </div>
+                                        <div class="form_control_container">
+                                            <div class="form_control_container__time">Max</div>
+                                            <input class="form_control_container__time__input" type="number" id="toInput2" value="185" min="0" max="255"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Third Range Slider -->
+                                <div class="range_container">
+                                    <h3 class="config-title">Blue</h3>
+                                    <div class="sliders_control">
+                                        <input id="fromSlider3" type="range" value="60" min="0" max="255"/>
+                                        <input id="toSlider3" type="range" value="185" min="0" max="255"/>
+                                    </div>
+                                    <div class="form_control">
+                                        <div class="form_control_container">
+                                            <div class="form_control_container__time">Min</div>
+                                            <input class="form_control_container__time__input" type="number" id="fromInput3" value="60" min="0" max="255"/>
+                                        </div>
+                                        <div class="form_control_container">
+                                            <div class="form_control_container__time">Max</div>
+                                            <input class="form_control_container__time__input" type="number" id="toInput3" value="185" min="0" max="255"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="conbtn" style="padding-top:15px;">
+                                    <center><button id="accept-btn" class="accept-btn">Accept & Save</button>
+                                    <button id="reset-btn" class="reset-btn">Reset</button></center>
+                                </div>  
+                            </div>                  
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            *{
+                margin: 0;
+                padding : 0;
+            }
+            body{
+                background-color: white;
+                font-family: Arial, Helvetica, sans-serif;
+                color: #0F1035;
+            }
+            .title{
+                padding : 20px 0px 20px 0px;
+                background: rgba(183, 183, 183, 0.2);
+            }
+            .Camera{
+                width: 50%;
+                text-align: center;
+            }
+            .Content{
+                display:flex;
+                width: 100%;
+            }
+            .color-values-box{
+                width: 50%;
+                text-align: left;
+                height: 100%;
+                
+            }
+            .Camera-Config-bar{
+                width: 60%;
+                float: right;
+                
+            }
+            .color-values{
+                width: 40%;
+                float:left;
+                text-align: center;
+                justify-content: center;
+                padding-top: 20%;
+                height: 100%;
+            }
+            .btn{
+                text-align: center;
+            }
+            .yellow-btn{
+                background-color: #FFFDA3;
+                color:black;
+                padding:15px;
+                border-style: none;
+                border-radius: 6px;
+                cursor:pointer;
+                font-size: 20px;
+                box-shadow:0 9px #999;
+                margin-left:5px;
+                transition: 0.2s;
+            }
+            .yellow-btn:hover{
+                background-color: #dedb4f;
+            }
+            .white-btn{
+                background-color: #F2F2F2;
+                color:black;
+                padding:15px;
+                border-style: none;
+                border-radius: 6px;
+                cursor:pointer;
+                font-size: 20px;
+                box-shadow:0 9px #999;
+                margin-left:5px;
+                transition: 0.2s;
+            }
+            .white-btn:hover{
+                background-color: #dfdfdf;
+            }
+            .blue-btn{
+                background-color: #6FC5FF;
+                color:white;
+                padding:15px;
+                border-style: none;
+                border-radius: 6px;
+                cursor:pointer;
+                font-size: 20px;
+                box-shadow:0 9px #999;
+                margin-left:5px;
+                transition: 0.2s;
+            }
+            .blue-btn:hover{
+                background-color:#2F9AE2;
+            }
+            .gray-btn{
+                background-color: #999999;
+                color:white;
+                padding:15px;
+                border-style: none;
+                border-radius: 6px;
+                cursor:pointer;
+                font-size: 20px;
+                box-shadow:0 9px #999;
+                transition: 0.2s;
+            }
+            .gray-btn:hover{
+                background-color: #737373;
+            }
+            .accept-btn{
+                background-color:#00A554;
+                color:white;
+                padding:5px;
+                border-style: none;
+                border-radius: 6px;
+                cursor:pointer;
+                font-size: 15px;
+                transition: 0.5s;
+            }
+            .accept-btn:hover{
+                background-color: #006533;
+            }
+            .accept-btn:active{
+                opacity: 0.5;
+            }
+            .reset-btn{
+                background-color: #D30000;
+                color:white;
+                padding:5px;
+                border-style: none;
+                border-radius: 6px;
+                cursor:pointer;
+                font-size: 15px;
+                transition: 0.5s;
+            }
+            .reset-btn:hover{
+                background-color: #8B0101;
+            }
+            .reset-btn:active{
+                opacity:0.5;
+            }
+            .config-title{
+                padding:10px 0 10px 0;
+                text-align: center;
+            }
+            .slidebar{
+                animation: fadeIn 1s;
+            }
+            @keyframes fadein{
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+            }
+            .camera-show{
+                width: 100%; padding: 10px; border-radius: 20px;
+            }
+            .range_container {
+                display: flex;
+                flex-direction: column;
+                width: 70%;
+                padding-top:15px;
+                padding-left: 15%;
+                }
+                .sliders_control {
+                padding-right: 100%;
+                position: relative;
+                min-height: 23px;
+                }
+
+                .form_control {
+                position: relative;
+                display: flex;
+                justify-content:center;
+                font-size: 24px;
+                color: #635a5a;
+                }
+
+                input[type=range]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                pointer-events: all;
+                width: 24px;
+                height: 24px;
+                background-color: #fff;
+                border-radius: 50%;
+                box-shadow: 0 0 0 1px #C6C6C6;
+                cursor: pointer;
+                }
+
+                input[type=range]::-moz-range-thumb {
+                pointer-events: all;
+                width: 24px;
+                height: 24px;
+                background-color: #fff;
+                border-radius: 50%;
+                box-shadow: 0 0 0 1px #C6C6C6;
+                cursor: pointer;  
+                }
+
+                input[type=range]::-webkit-slider-thumb:hover {
+                background: #f7f7f7;
+                }
+
+                input[type=range]::-webkit-slider-thumb:active {
+                box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
+                -webkit-box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
+                }
+
+                input[type="number"] {
+                color: #8a8383;
+                width: 50px;
+                height: 30px;
+                font-size: 20px;
+                border: none;
+                }
+
+                input[type=number]::-webkit-inner-spin-button, 
+                input[type=number]::-webkit-outer-spin-button {  
+                opacity: 1;
+                }
+
+                input[type="range"] {
+                -webkit-appearance: none; 
+                appearance: none;
+                height: 2px;
+                width: 100%;
+                position: absolute;
+                background-color: #C6C6C6;
+                pointer-events: none;
+                }
+
+                #fromSlider {
+                height: 0;
+                z-index: 1;
+                }
+                @media screen and (max-width:1200px) {
+                .color-values{
+                    font-size: 10px;
+                }
+                .title{
+                    font-size: 15px;
+                }
+                .yellow-btn{
+                    font-size: 12px;
+                    padding:12px;
+                }
+                .white-btn{
+                    font-size: 12px;
+                    padding:12px;
+                }
+                .blue-btn{
+                    font-size: 12px;
+                    padding:12px;
+                }
+                .gray-btn{
+                    font-size: 12px;
+                    padding:12px;
+                }
+                .config-title{
+                    font-size: 15px;
+                }
+                .form_control_container__time{
+                    font-size:15px;
+                }
+                .form_control_container__time__input
+                {
+                    font-size: 10px;
+                }
+            }
+
+            @media screen and (max-width:500px){
+                .Camera{
+                    width: 100%;
+                    padding: 0 0 0 0;
+                    text-align: center;
+                }
+                .Content{
+                    display: block;
+                }
+                .color-values-box{
+                    width: 100%;
+                }
+                .yellow-btn{
+                    margin-left:-24px;
+                }
+                .white-btn{
+                    padding-left:15px;
+                }
+                .blue-btn{
+                    padding-left:15px;
+                }
+                .gray-btn{
+                    padding-left:15px;
+                }
+                .color-values{
+                    padding-top:18%;
+                }
+                .camera-show{
+                    padding:10px;
+                    width:90%;
+                }
+                
+            }
+            
+            
+            
+        </style>
+        <script>
+            function getConfigData() {
+                $.get("/get_config_data", function (data) {
+                    console.log("Received data.current_model:", data.current_model);
+                    $("#current_model").text("Current Model: " + data.current_model);
+                    $("#current_trig").text("Current Trig: " + data.current_trig);
+                });
+            }
+            setInterval(getConfigData, 1000);
+            let status = "blank";
+            let model = 0;
+            function getColorValues() {
+                $.get("/get_color_values", function (data) {
+                    $("#r_avg_value").text("R_avg Value: " + data.R_avg.toFixed(2));
+                    $("#g_avg_value").text("G_avg Value: " + data.G_avg.toFixed(2));
+                    $("#b_avg_value").text("B_avg Value: " + data.B_avg.toFixed(2));
+                });
+            }
+            setInterval(getColorValues, 1000);  
+            
+            function controlFromInput(fromSlider, fromInput, toInput, controlSlider) {
+            const [from, to] = getParsed(fromInput, toInput);
+            fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
+            if (from > to) {
+                fromSlider.value = to;
+                fromInput.value = to;
+            } else {
+                fromSlider.value = from;
+            }
+            }
+
+            function controlToInput(toSlider, fromInput, toInput, controlSlider) {
+            const [from, to] = getParsed(fromInput, toInput);
+            fillSlider(fromInput, toInput, '#C6C6C6', '#25daa5', controlSlider);
+            setToggleAccessible(toInput);
+            if (from <= to) {
+                toSlider.value = to;
+                toInput.value = to;
+            } else {
+                toInput.value = from;
+                }
+            }
+
+            function controlFromSlider(fromSlider, toSlider, fromInput) {
+            const [from, to] = getParsed(fromSlider, toSlider);
+            fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+            if (from > to) {
+            fromSlider.value = to;
+            fromInput.value = to;
+            } else {
+            fromInput.value = from;
+            }
+            }
+
+            function controlToSlider(fromSlider, toSlider, toInput) {
+            const [from, to] = getParsed(fromSlider, toSlider);
+            fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+            setToggleAccessible(toSlider);
+            if (from <= to) {
+            toSlider.value = to;
+            toInput.value = to;
+            } else {
+            toInput.value = from;
+            toSlider.value = from;
+            }
+            }
+
+            function getParsed(currentFrom, currentTo) {
+            const from = parseInt(currentFrom.value, 10);
+            const to = parseInt(currentTo.value, 10);
+            return [from, to];
+            }
+
+            function fillSlider(from, to, sliderColor, rangeColor, controlSlider) {
+            const rangeDistance = to.max - to.min;
+            const fromPosition = from.value - to.min;
+            const toPosition = to.value - to.min;
+            controlSlider.style.background = `linear-gradient(
+            to right,
+            ${sliderColor} 0%,
+            ${sliderColor} ${(fromPosition) / (rangeDistance) * 100}%,
+            ${rangeColor} ${((fromPosition) / (rangeDistance)) * 100}%,
+            ${rangeColor} ${(toPosition) / (rangeDistance) * 100}%, 
+            ${sliderColor} ${(toPosition) / (rangeDistance) * 100}%, 
+            ${sliderColor} 100%)`;
+            }
+
+            function setToggleAccessible(currentTarget) {
+            const toSlider = document.querySelector('#toSlider');
+            if (Number(currentTarget.value) <= 0) {
+            toSlider.style.zIndex = 2;
+            } else {
+            toSlider.style.zIndex = 0;
+            }
+            }
+
+            // First set of sliders
+            const fromSlider1 = document.querySelector('#fromSlider1');
+            const toSlider1 = document.querySelector('#toSlider1');
+            const fromInput1 = document.querySelector('#fromInput1');
+            const toInput1 = document.querySelector('#toInput1');
+            fillSlider(fromSlider1, toSlider1, '#C6C6C6', '#25daa5', toSlider1);
+            setToggleAccessible(toInput1);
+
+            fromSlider1.oninput = () => controlFromSlider(fromSlider1, toSlider1, fromInput1);
+            toSlider1.oninput = () => controlToSlider(fromSlider1, toSlider1, toInput1);
+            fromInput1.oninput = () => controlFromInput(fromSlider1, fromInput1, toInput1, toSlider1);
+            toInput1.oninput = () => controlToInput(toSlider1, fromInput1, toInput1, toSlider1);
+
+            // Second set of sliders
+            const fromSlider2 = document.querySelector('#fromSlider2');
+            const toSlider2 = document.querySelector('#toSlider2');
+            const fromInput2 = document.querySelector('#fromInput2');
+            const toInput2 = document.querySelector('#toInput2');
+            fillSlider(fromSlider2, toSlider2, '#C6C6C6', '#25daa5', toSlider2);
+            setToggleAccessible(toInput2);
+
+            fromSlider2.oninput = () => controlFromSlider(fromSlider2, toSlider2, fromInput2);
+            toSlider2.oninput = () => controlToSlider(fromSlider2, toSlider2, toInput2);
+            fromInput2.oninput = () => controlFromInput(fromSlider2, fromInput2, toInput2, toSlider2);
+            toInput2.oninput = () => controlToInput(toSlider2, fromInput2, toInput2, toSlider2);
+
+            function setToggleAccessible(currentTarget) {
+            const toSlider = document.querySelector('#toSlider1');
+            // Rest of the function remains unchanged
+            }
+
+
+            // Third set of sliders
+            const fromSlider3 = document.querySelector('#fromSlider3');
+            const toSlider3 = document.querySelector('#toSlider3');
+            const fromInput3 = document.querySelector('#fromInput3');
+            const toInput3 = document.querySelector('#toInput3');
+            fillSlider(fromSlider3, toSlider3, '#C6C6C6', '#25daa5', toSlider3);
+            setToggleAccessible(toInput3);
+
+            fromSlider3.oninput = () => controlFromSlider(fromSlider3, toSlider3, fromInput3);
+            toSlider3.oninput = () => controlToSlider(fromSlider3, toSlider3, toInput3);
+            fromInput3.oninput = () => controlFromInput(fromSlider3, fromInput3, toInput3, toSlider3);
+            toInput3.oninput = () => controlToInput(toSlider3, fromInput3, toInput3, toSlider3);
+
+            function setToggleAccessible(currentTarget) {
+            const toSlider = document.querySelector('#toSlider3');
+            // Rest of the function remains unchanged
+                }
+            function setSliderValues(fromSlider, toSlider, fromInput, toInput, minValue, maxValue) {
+                fromSlider.value = minValue;
+                toSlider.value = maxValue;
+                fromInput.value = minValue;
+                toInput.value = maxValue;
+                fillSlider(fromSlider, toSlider, '#C6C6C6', '#25daa5', toSlider);
+                setToggleAccessible(toInput);
+            }
+
+            function yellow_setting(){
+                $.get("/get_color_config", function (data) {
+                    const Yellow_R_min = data.Yellow_R_min.toFixed(2);
+                    const Yellow_R_max = data.Yellow_R_max.toFixed(2);
+                    const Yellow_G_min = data.Yellow_G_min.toFixed(2);
+                    const Yellow_G_max = data.Yellow_G_max.toFixed(2);
+                    const Yellow_B_min = data.Yellow_B_min.toFixed(2);
+                    const Yellow_B_max = data.Yellow_B_max.toFixed(2);
+
+                    setSliderValues(fromSlider1, toSlider1, fromInput1, toInput1, Yellow_R_min, Yellow_R_max);
+                    setSliderValues(fromSlider2, toSlider2, fromInput2, toInput2, Yellow_G_min, Yellow_G_max);
+                    setSliderValues(fromSlider3, toSlider3, fromInput3, toInput3, Yellow_B_min, Yellow_B_max);
+                    
+                    model = 1;
+                    document.getElementById('model').value = model;
+                    status = "yellow";
+                    console.log("Yellow Selected!");
+                    toggleDoubleSliderVisibility();
+                    toggleselect();
+                    ColorSelected();
+                });
+            }
+
+            // Double Slider bar Setting
+
+            function white_setting(){
+                $.get("/get_color_config", function (data) {
+                    const White_R_min = data.White_R_min.toFixed(2);
+                    const White_R_max = data.White_R_max.toFixed(2);
+                    const White_G_min = data.White_G_min.toFixed(2);
+                    const White_G_max = data.White_G_max.toFixed(2);
+                    const White_B_min = data.White_B_min.toFixed(2);
+                    const White_B_max = data.White_B_max.toFixed(2);
+
+                    
+                    setSliderValues(fromSlider1, toSlider1, fromInput1, toInput1, White_R_min, White_R_max);
+                    setSliderValues(fromSlider2, toSlider2, fromInput2, toInput2, White_G_min, White_G_max);
+                    setSliderValues(fromSlider3, toSlider3, fromInput3, toInput3, White_B_min, White_B_max);
+                    
+                    model = 2;
+                    document.getElementById('model').value = model;
+                    status = "white";
+                    console.log("White Selected!");
+                    toggleDoubleSliderVisibility();
+                    toggleselect();
+                    ColorSelected();
+
+                });
+            }
+            
+            function blue_setting(){
+                $.get("/get_color_config", function (data) {
+                    const Blue_R_min = data.Blue_R_min.toFixed(2);
+                    const Blue_R_max = data.Blue_R_max.toFixed(2);
+                    const Blue_G_min = data.Blue_G_min.toFixed(2);
+                    const Blue_G_max = data.Blue_G_max.toFixed(2);
+                    const Blue_B_min = data.Blue_B_min.toFixed(2);
+                    const Blue_B_max = data.Blue_B_max.toFixed(2);
+
+                    
+                    setSliderValues(fromSlider1, toSlider1, fromInput1, toInput1, Blue_R_min, Blue_R_max);
+                    setSliderValues(fromSlider2, toSlider2, fromInput2, toInput2, Blue_G_min, Blue_G_max);
+                    setSliderValues(fromSlider3, toSlider3, fromInput3, toInput3, Blue_B_min, Blue_B_max);
+
+                    model = 3;
+                    document.getElementById('model').value = model;
+                    status = "blue";
+                    console.log("Blue Selected!");
+                    toggleDoubleSliderVisibility();
+                    toggleselect();
+                    ColorSelected();
+
+                });
+            }
+
+            function gray_setting(){
+                $.get("/get_color_config", function (data) {
+                    const Gray_R_min = data.Gray_R_min.toFixed(2);
+                    const Gray_R_max = data.Gray_R_max.toFixed(2);
+                    const Gray_G_min = data.Gray_G_min.toFixed(2);
+                    const Gray_G_max = data.Gray_G_max.toFixed(2);
+                    const Gray_B_min = data.Gray_B_min.toFixed(2);
+                    const Gray_B_max = data.Gray_B_max.toFixed(2);
+
+                    
+                    setSliderValues(fromSlider1, toSlider1, fromInput1, toInput1, Gray_R_min, Gray_R_max);
+                    setSliderValues(fromSlider2, toSlider2, fromInput2, toInput2, Gray_G_min, Gray_G_max);
+                    setSliderValues(fromSlider3, toSlider3, fromInput3, toInput3, Gray_B_min, Gray_B_max);
+
+                    model = 4;
+                    document.getElementById('model').value = model;
+                    status = "gray";
+                    console.log("Gray Selected!");
+                    toggleDoubleSliderVisibility();
+                    toggleselect();
+                    ColorSelected();
+
+                });
+            }
+
+
+            // When Click Btn
+            document.getElementById('yellow-btn').addEventListener('click', function() { // When Click Yellow btn
+                yellow_setting();
+            });
+
+            document.getElementById('white-btn').addEventListener('click', function() { // When Click White btn
+                white_setting();
+            });
+
+            document.getElementById('blue-btn').addEventListener('click', function() { // When Click Blue btn
+                blue_setting();
+            });
+
+            document.getElementById('gray-btn').addEventListener('click', function() { // When Click Gray btn
+                gray_setting();
+            });
+
+
+            // Reset btn
+            document.getElementById('reset-btn').addEventListener('click', function() { // When Click reset btn
+                console.log(status);
+                if(status == "yellow"){
+                    yellow_setting();
+                } 
+                else if(status == "white"){
+                    white_setting();
+                }
+                else if(status == "blue"){
+                    blue_setting();
+                }
+                else if(status == "gray"){
+                    gray_setting();
+                }else{
+                    console.log("Blank Selection");
+                }
+            });
+
+            document.getElementById('accept-btn').addEventListener('click', function() { // When Click Accept btn
+                console.log("=====");
+                console.log("Debug");
+                console.log(document.getElementById('fromInput1').value);
+                console.log(document.getElementById('toInput1').value);
+                console.log("=====");
+
+                var dataToSend = {
+                    R_min : parseFloat(document.getElementById('fromInput1').value),
+                    R_max : parseFloat(document.getElementById('toInput1').value),
+                    G_min : parseFloat(document.getElementById('fromInput2').value),
+                    G_max : parseFloat(document.getElementById('toInput2').value),
+                    B_min : parseFloat(document.getElementById('fromInput3').value),
+                    B_max : parseFloat(document.getElementById('toInput3').value),
+                    model : parseFloat(document.getElementById('model').value)
+                    };
+
+                    // Make an HTTP POST request to the Python server
+                    fetch('http://127.0.0.1:5000/receive_data', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(dataToSend),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Response from Python:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                
+                alert('Change colour value successfully!');
+            });
+
+            function toggleDoubleSliderVisibility() {
+        const slidebar = document.querySelector('.slidebar');
+        // Check if model is 0, hide the slidebar; otherwise, show it
+            if (model > 0) {
+            slidebar.style.display = 'block';
+            } else {
+                slidebar.style.display = 'none';
+            }
+        }
+        toggleDoubleSliderVisibility();
+        function toggleselect() {
+            const select = document.querySelector('.select-color-title');
+
+            // Check if model is 0, hide the slidebar; otherwise, show it
+            if (model < 1) {
+            select.style.display = 'block';
+            } else {
+                select.style.display = 'none';
+            }
+        }
+
+        function ColorSelected(){
+            const yellow_btn = document.getElementById('yellow-btn');
+            const white_btn = document.getElementById('white-btn');
+            const blue_btn = document.getElementById('blue-btn');
+            const gray_btn = document.getElementById('gray-btn');
+
+            if(model === 1){
+                yellow_btn.style.backgroundColor = '#DEDB4F';
+                yellow_btn.style.boxShadow = '0 5px #666';
+                yellow_btn.style.transform = 'translateY(4px)';
+                white_btn.style.backgroundColor = '';
+                white_btn.style.boxShadow = '';
+                white_btn.style.transform = '';
+                blue_btn.style.backgroundColor = '';
+                blue_btn.style.boxShadow = '';
+                blue_btn.style.transform = '';
+                gray_btn.style.backgroundColor = '';
+                gray_btn.style.boxShadow = '';
+                gray_btn.style.transform = '';
+            }
+            if(model === 2){
+                white_btn.style.backgroundColor = '#DFDFDF';
+                white_btn.style.boxShadow = '0 5px #666';
+                white_btn.style.transform = 'translateY(4px)';
+                yellow_btn.style.backgroundColor = '';
+                yellow_btn.style.boxShadow = '';
+                yellow_btn.style.transform = '';
+                blue_btn.style.backgroundColor = '';
+                blue_btn.style.boxShadow = '';
+                blue_btn.style.transform = '';
+                gray_btn.style.backgroundColor = '';
+                gray_btn.style.boxShadow = '';
+                gray_btn.style.transform = '';
+            }
+            if(model === 3){
+                blue_btn.style.backgroundColor = '#2F9AE2';
+                blue_btn.style.boxShadow = '0 5px #666';
+                blue_btn.style.transform = 'translateY(4px)';
+                yellow_btn.style.backgroundColor = '';
+                yellow_btn.style.boxShadow = '';
+                yellow_btn.style.transform = '';
+                white_btn.style.backgroundColor = '';
+                white_btn.style.boxShadow = '';
+                white_btn.style.transform = '';
+                gray_btn.style.backgroundColor = '';
+                gray_btn.style.boxShadow = '';
+                gray_btn.style.transform = '';
+            }
+            if(model === 4){
+                gray_btn.style.backgroundColor = '#737373';
+                gray_btn.style.boxShadow = '0 5px #666';
+                gray_btn.style.transform = 'translateY(4px)';
+                yellow_btn.style.backgroundColor = '';
+                yellow_btn.style.boxShadow = '';
+                yellow_btn.style.transform = '';
+                white_btn.style.backgroundColor = '';
+                white_btn.style.boxShadow = '';
+                white_btn.style.transform = '';
+                blue_btn.style.backgroundColor = '';
+                blue_btn.style.boxShadow = '';
+                blue_btn.style.transform = '';
+            }
+        }
+        </script>
+    </body>
+</html>
